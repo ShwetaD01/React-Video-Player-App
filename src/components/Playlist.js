@@ -27,14 +27,14 @@ const Playlist = ({ videos, onVideoClick, onOrderVideos }) => {
   return (
     <div className="flex-col flex-wrap overflow-y-scroll h-screen">
 
-      {videos.map((ele, i) => (
-      
+      {
+        videos?.map((ele, i) => (
         <div
           key={i}
           draggable
           onDragStart={() => handleReorderStart(i)}
           onDragOver={() => handleReorderOver(i)}
-          onClick={() => onVideoClick(ele.sources[0])}
+          onClick={() => onVideoClick(ele?.sources[0])}
         >
 
 
@@ -48,7 +48,8 @@ const Playlist = ({ videos, onVideoClick, onOrderVideos }) => {
           
           </div>
         </div>
-      ))}
+      ))
+      }
     </div>
   );
 };

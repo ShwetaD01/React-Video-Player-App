@@ -10,28 +10,18 @@ const VideoPlayer = ({ playing }) => {
   const [autoplay, setAutoplay] = useState(true);
   const [volume, setVolume] = useState(1);
  
-  // const handlePlayPause = () => {
-  //   setIsPlaying(!isPlaying);
-  //   if (isPlaying) {
-  //     videoRef.current.pause();
-  //   } else {
-  //     videoRef.current.play();
-  //   }
-  // };
-
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying);
     if (isPlaying) {
       videoRef.current.pause();
     } else {
      
-      const promise = videoRef.current.play();
-      if (promise !== undefined) {
-        promise.catch((error) => console.error('Autoplay failed:', error));
+      const res = videoRef.current.play();
+      if (res !== undefined) {
+        res.catch((error) => console.error(error));
       }
     }
   };
-  
 
   const handleTime = () => {
     setCurrentTime(videoRef.current.currentTime);
@@ -79,7 +69,7 @@ const VideoPlayer = ({ playing }) => {
         ref={videoRef}
         onTimeUpdate={handleTime}
         autoPlay={autoplay}
-        muted 
+        muted
       >
         <source src={playing} type="video/mp4"></source>
       </video>
@@ -94,7 +84,7 @@ const VideoPlayer = ({ playing }) => {
       />
 
       <span className="text-cyan-50">{`${currentTime}: ${videoRef?.current?.duration} `}</span>
-      <div className="flex items-center justify-center">
+      <div className="flex md:flex-row flex-col items-center justify-center">
         <button
           onClick={handlePlayPause}
           className="bg-orange-500 text-cyan-50 p-2 rounded-lg  md:m-6 m-2"
