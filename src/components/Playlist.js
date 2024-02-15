@@ -21,6 +21,8 @@ const Playlist = ({ videos, onVideoClick, onOrderVideos }) => {
     setDraggedItem(null);
     onOrderVideos(newVideos);
   };
+ 
+  
 
   return (
     <div className="flex-col flex-wrap overflow-y-scroll h-screen">

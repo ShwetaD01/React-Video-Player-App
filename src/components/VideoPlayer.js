@@ -28,7 +28,7 @@ const VideoPlayer = ({ playing }) => {
     setCurrentTime(newTime);
     videoRef.current.currentTime = newTime;
   };
-  // console.log(videoRef)
+ 
 
   const handleAutoplayToggle = () => {
     setAutoplay(!autoplay);
@@ -42,6 +42,7 @@ const VideoPlayer = ({ playing }) => {
     setVolume(parseFloat(newVolume));
     videoRef.current.volume = newVolume;
   };
+  
   useEffect(() => {
 
     if (videoRef.current) {
@@ -52,14 +53,17 @@ const VideoPlayer = ({ playing }) => {
       }
     }
 
-    return () => {
+    // return () => {
    
-      if (videoRef.current) {
-        videoRef.current.pause();
-      }
-    };
+    //   if (videoRef.current) {
+    //     videoRef.current.pause();
+    //   }
+    // };
   }, [playing, autoplay]);
-
+  // const handlePlay = () => {
+  //   videoRef.current.play();
+  // };
+  
   return (
     <div className="flex-col justify-center w-screen h-screen bg-black">
       <video
@@ -70,6 +74,7 @@ const VideoPlayer = ({ playing }) => {
         ref={videoRef}
         onTimeUpdate={handleTime}
         autoPlay={autoplay}
+        // muted 
       >
         <source src={playing} type="video/mp4"></source>
       </video>
