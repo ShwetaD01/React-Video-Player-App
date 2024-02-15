@@ -10,14 +10,28 @@ const VideoPlayer = ({ playing }) => {
   const [autoplay, setAutoplay] = useState(true);
   const [volume, setVolume] = useState(1);
  
+  // const handlePlayPause = () => {
+  //   setIsPlaying(!isPlaying);
+  //   if (isPlaying) {
+  //     videoRef.current.pause();
+  //   } else {
+  //     videoRef.current.play();
+  //   }
+  // };
+
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying);
     if (isPlaying) {
       videoRef.current.pause();
     } else {
-      videoRef.current.play();
+     
+      const promise = videoRef.current.play();
+      if (promise !== undefined) {
+        promise.catch((error) => console.error('Autoplay failed:', error));
+      }
     }
   };
+  
 
   const handleTime = () => {
     setCurrentTime(videoRef.current.currentTime);
@@ -52,17 +66,8 @@ const VideoPlayer = ({ playing }) => {
         videoRef.current.play();
       }
     }
-
-    // return () => {
-   
-    //   if (videoRef.current) {
-    //     videoRef.current.pause();
-    //   }
-    // };
   }, [playing, autoplay]);
-  // const handlePlay = () => {
-  //   videoRef.current.play();
-  // };
+
   
   return (
     <div className="flex-col justify-center w-screen h-screen bg-black">
@@ -74,7 +79,7 @@ const VideoPlayer = ({ playing }) => {
         ref={videoRef}
         onTimeUpdate={handleTime}
         autoPlay={autoplay}
-        // muted 
+        muted 
       >
         <source src={playing} type="video/mp4"></source>
       </video>
