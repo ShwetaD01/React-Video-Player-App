@@ -1,14 +1,15 @@
 import React, { useRef, useState, useEffect } from "react";
 
 const VideoPlayer = ({ playing }) => {
-  // console.log(playing, "play");
+
 
   let videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const [autoplay, setAutoplay] = useState(true);
-
+  const [volume, setVolume] = useState(1);
+ 
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying);
     if (isPlaying) {
@@ -36,8 +37,13 @@ const VideoPlayer = ({ playing }) => {
   const handleSpeedChange = (e) => {
     setPlaybackSpeed(parseFloat(e.target.value));
   };
+
+  const handleVolumeChange = (newVolume) => {
+    setVolume(parseFloat(newVolume));
+    videoRef.current.volume = newVolume;
+  };
   useEffect(() => {
-    // Load the new video when the video prop changes
+
     if (videoRef.current) {
       videoRef.current.src = playing;
       videoRef.current.load();
@@ -47,10 +53,9 @@ const VideoPlayer = ({ playing }) => {
     }
 
     return () => {
-      // Cleanup when the component is unmounted
+   
       if (videoRef.current) {
         videoRef.current.pause();
-        videoRef.current.src = "";
       }
     };
   }, [playing, autoplay]);
@@ -64,31 +69,25 @@ const VideoPlayer = ({ playing }) => {
         key={playing}
         ref={videoRef}
         onTimeUpdate={handleTime}
-        // autoPlay={autoplay}
+        autoPlay={autoplay}
       >
         <source src={playing} type="video/mp4"></source>
       </video>
 
-      {/* <input
-          type="range"
-          value={currentTime}
-          max={videoRef.duration}
-          onChange={handleSeek}
-          className="w-[70rem]"
-        />  */}
+  
       <input
         type="range"
         value={currentTime}
         max={videoRef.current ? videoRef.current.duration : 0}
         onChange={handleSeek}
-        className="w-[70rem]"
+        className="md:w-[70rem] w-[65vw] m-2"
       />
 
       <span className="text-cyan-50">{`${currentTime}: ${videoRef?.current?.duration} `}</span>
       <div className="flex items-center justify-center">
         <button
           onClick={handlePlayPause}
-          className="bg-orange-500 text-cyan-50 p-2 rounded-lg  m-6"
+          className="bg-orange-500 text-cyan-50 p-2 rounded-lg  md:m-6 m-2"
         >
           {isPlaying ? "Pause" : "Play"}
         </button>
@@ -99,7 +98,7 @@ const VideoPlayer = ({ playing }) => {
             type="checkbox"
             onChange={handleAutoplayToggle}
             checked={autoplay}
-            className="bg-orange-500 text-cyan-50 p-2 rounded-lg mx-2"
+            className="bg-orange-500 text-cyan-50 p-2 rounded-lg md:mx-2 mx-1"
           />
         </label> 
 
@@ -108,14 +107,27 @@ const VideoPlayer = ({ playing }) => {
           <select
             onChange={handleSpeedChange}
             value={playbackSpeed}
-            className="bg-orange-500 text-cyan-50 px-2 py-2 rounded-lg  m-6"
+            className="bg-orange-500 text-cyan-50 p-2 rounded-lg  md:m-6 m-2"
           >
             <option value="0.5">0.5x</option>
             <option value="1">1x</option>
             <option value="1.5">1.5x</option>
-            <option value="2">2x</option>
           </select>
         </label> 
+
+        <label className="bg-orange-500 text-cyan-50 p-1 rounded-lg">
+          Volume
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value={volume}
+            onChange={(e) => handleVolumeChange(e.target.value)}
+            className="bg-orange-500 text-cyan-50  rounded-lg  md:m-2"
+          />
+        </label>
+
       </div>
     </div>
   );

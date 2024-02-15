@@ -14,7 +14,7 @@ function App() {
 
 // console.log(currentVideo, "currrr")
   return (
-    <div className="flex">
+    <div className="flex md:flex-row flex-col">
       
         <VideoPlayer playing={currentVideo}></VideoPlayer>
 

@@ -25,7 +25,6 @@ const Playlist = ({ videos, onVideoClick, onOrderVideos }) => {
   return (
     <div className="flex-col flex-wrap overflow-y-scroll h-screen">
 
-    {/* <h2 className='m-2'>Videos</h2> */}
       {videos.map((ele, i) => (
       
         <div
@@ -42,6 +41,7 @@ const Playlist = ({ videos, onVideoClick, onOrderVideos }) => {
             <img
               src={`http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/${ele?.thumb}`}
               alt={ele?.title}
+              className='w-[100%] md:h-fit h-[100%]'
             />
           
           </div>
